@@ -22,13 +22,16 @@ import java.util.*;
     private ArrayList<Integer> selfHistory = new ArrayList<Integer>();
 
 
-    // private boolean areAcross(int player1LastMove, int player2LastMove){
-    //   if ( (player1LastMove - 6) % 12 == player2LastMove){
-    //     return true;
+    private boolean areAcross(int player1LastMove, int player2LastMove){
+      if (player2LastMove == 12){
+        player2LastMove = 0;
+      }
+      if ( Math.floorMod((player1LastMove - 6), 12) == player2LastMove){
+        return true;
 
-    //   }
-    //   return false; 
-    // }
+      }
+      return false; 
+    }
 
 
     private double findS(double bigGamma,ArrayList<Integer> selfHistory, ArrayList<Integer> otherHistory){
@@ -155,7 +158,6 @@ import java.util.*;
           //Sit across Player 1
 
           int nextMove = Math.floorMod( player1LastMove - 6, 12);
-          System.out.println("sticky " + nextMove);
 
           if (nextMove == 0){
             nextMove = 12;
@@ -236,8 +238,19 @@ import java.util.*;
 
         //This is where we play carrot stick
 
-        
+      else if (this.areAcross(player1LastMove, player2LastMove)){
+        System.out.println("Sucker");
+        if (sPlayer1 < sPlayer2){
+          this.selfHistory.add(player1LastMove);
+          return player1LastMove;
+        }
+        this.selfHistory.add(player2LastMove);
+        return player2LastMove;
 
+      }
+
+        
+      //No conditions met just stick
 
 
         this.selfHistory.add(this.sticky);
