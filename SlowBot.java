@@ -124,20 +124,23 @@ import java.util.*;
 
         double sPlayer2 = this.findS(bigGamma, this.player2History, this.player2History);  
         double fSelfandp2 = this.findFandOther(bigGamma, this.selfHistory, this.player2History);
-        double fOpponents = this.findFandOther(bigGamma, this.player1History, this.player2History);
+        double fOpponents12 = this.findFandOther(bigGamma, this.player1History, this.player2History);
+        double fOpponents21 = this.findFandOther(bigGamma, this.player2History, this.player1History);
+
         double fPlayer2 = this.findF(bigGamma, this.player2History, this.selfHistory, this.player1History);
 
 
                   
 
-        System.out.println("------");        
-        System.out.println("sPlayer1: " + sPlayer1);
-        System.out.println("sPlayer2: " + sPlayer2);
-        System.out.println("fSelfandp1: " +fSelfandp1);
-        System.out.println("fSelfandp2: " + fSelfandp2);
-        System.out.println("fOpponents: " +fOpponents );
-        System.out.println("fPlayer1: " + fPlayer1);
-        System.out.println("fPlayer2: " + fPlayer2);
+        // System.out.println("------");        
+        // System.out.println("sPlayer1: " + sPlayer1);
+        // System.out.println("sPlayer2: " + sPlayer2);
+        // System.out.println("fSelfandp1: " +fSelfandp1);
+        // System.out.println("fSelfandp2: " + fSelfandp2);
+        // System.out.println("fOpponents12: " +fOpponents12 );
+        // System.out.println("fOpponents21: " +fOpponents21 );
+        // System.out.println("fPlayer1: " + fPlayer1);
+        // System.out.println("fPlayer2: " + fPlayer2);
         
 
 
@@ -154,13 +157,15 @@ import java.util.*;
           int nextMove = Math.floorMod( player1LastMove - 6, 12);
           System.out.println("sticky " + nextMove);
 
+          if (nextMove == 0){
+            nextMove = 12;
+          }
+
           // this.stickCounter = 5;
           this.sticky = nextMove;
 
           
-          if (nextMove == 0){
-            nextMove = 12;
-          }
+       
           this.selfHistory.add(nextMove);
           return nextMove;
         }
@@ -202,7 +207,7 @@ import java.util.*;
 
         //is player 1 following me?
         else if (fPlayer1 > sPlayer1 + this.tol && fPlayer1 > sPlayer2 + this.tol && fPlayer1 > fPlayer2 + this.tol){
-          if (fSelfandp1 > fOpponents){
+          if (fSelfandp1 > fOpponents12){
             this.selfHistory.add(this.sticky);
             return this.sticky;
           }
@@ -212,15 +217,31 @@ import java.util.*;
           }
         }
 
+        //Trying to sit on opponent with highest follow index
+        else if (fPlayer1 > sPlayer1 + this.tol && fPlayer2 > sPlayer2 + this.tol && fOpponents12 > fSelfandp1 && fOpponents21 > fSelfandp2 ){
+          if (fPlayer1 > fPlayer2){
+            this.selfHistory.add(player1LastMove);
+
+            return player1LastMove;
+          }
+          else{
+            this.selfHistory.add(player2LastMove);
+            return player2LastMove;
+
+
+          }
+        }
 
 
 
+        //This is where we play carrot stick
 
         
 
 
 
-        this.selfHistory.add(3);
-        return 3;
+        this.selfHistory.add(this.sticky);
+        
+        return this.sticky;
     }
 }
