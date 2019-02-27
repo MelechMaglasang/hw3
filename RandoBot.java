@@ -1,16 +1,18 @@
 import java.util.*;
 
-/** A Lemonade Stand game player that is #slow
+/** A Lemonade Stand game player that is #slow and Rando
   * 
   * @author Melech Maglasang + Altan Tutar
-  * 
   */
-  public class SlowBot implements Bot {
+  public class RandoBot implements Bot {
     /*
       Plays a stick style strategy can move if no one takes advantage of it and moves across it
       If it is a sucker of the match it will occupy the spot of one of the players forcing it to make a decision
 
     */
+    private Random generator = new Random();
+
+
     //Set Variables
     private double rho = 0.5;
     private double gamma = 0.75;
@@ -183,6 +185,17 @@ import java.util.*;
         //Build History
         player1History.add(player1LastMove);
         player2History.add(player2LastMove);
+
+
+        if (player1History.size() < 10){
+          int num = generator.nextInt(12) + 1;
+
+          this.selfHistory.add(num);
+
+          return num;
+          
+
+        }
       
 
         // // Signal that this can be a stationary player so start off stationary --Stick counter basically
@@ -334,13 +347,9 @@ import java.util.*;
         // System.out.println("Sucker");
 
         if (this.suckerIndex){
-          int num = this.sticky;
+          int num = generator.nextInt(12) + 1;
 
-          num = Math.floorMod(num - 3,12);
-
-          if (num == 0){
-            num = 12;
-          }
+         
           this.sticky = num;
 
           this.stickCounter = 5;
