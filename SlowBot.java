@@ -215,8 +215,8 @@ import java.util.*;
 
         // double fPlayer2 = this.findF(bigGamma, this.player2History, this.selfHistory, this.player1History);
 
-        double fPlayer1 = Collections.min(Arrays.asList( fSelfandp2, fOpponents12, fOpponents21));
-        double fPlayer2 = Collections.min(Arrays.asList(fSelfandp1, fOpponents12, fOpponents21));
+        double fPlayer1 = Collections.min(Arrays.asList( fSelfandp1, fOpponents12, fOpponents21));
+        double fPlayer2 = Collections.min(Arrays.asList(fSelfandp2, fOpponents12, fOpponents21));
 
 
 
