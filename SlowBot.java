@@ -327,9 +327,6 @@ public class SlowBot implements Bot {
         this.stickCounter = 5;
 
         this.selfHistory.add(this.sticky);
-        System.out.println(this.sticky);
-
-
         return this.sticky;
 
       } else {

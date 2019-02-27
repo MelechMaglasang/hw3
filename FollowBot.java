@@ -7,7 +7,7 @@ import java.util.*;
   * @author RR
   */
 public class FollowBot implements Bot {
-    // private Random generator = new Random();
+    private Random generator = new Random();
     
     /** Returns an action according to the mixed strategy that picks among 
       * actions uniformly at random.
@@ -20,7 +20,12 @@ public class FollowBot implements Bot {
       * @return the next action to play.
       */
     public int getNextMove(int player1LastMove, int player2LastMove) {
-        int nextMove = Math.floorMod( player1LastMove - 6, 12);
+        int followee = player2LastMove;
+        if (generator.nextInt(2) + 1  == 1){
+          followee = player1LastMove;
+        }
+      
+        int nextMove = Math.floorMod( followee - 6, 12);
 
         if (nextMove == 0){
           nextMove = 12;
