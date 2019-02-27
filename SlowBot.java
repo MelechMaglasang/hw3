@@ -95,6 +95,28 @@ import java.util.*;
 
 
     }
+
+    private int scoreRound(int action1, int action2, int action3) {
+      if ((action1 == action2) && (action1 == action3))
+          return 8; // three-way tie
+      else if ((action1 == action2) || (action1 == action3)) {
+          return 6; // two-way tie
+      }
+      else {
+          int score = 0;
+          int i = action1;
+          while ((i != action2) && (i != action3)) { // score clockwise
+              i = (i % 12) + 1;
+              score += 1;
+          }
+          i = action1;
+          while ((i != action2) && (i != action3)) { // score anti-clockwise
+              i = (i-1 > 0) ? i-1 : 12;
+              score += 1;
+          }
+          return score;
+      }
+  }
     
     public int getNextMove(int player1LastMove, int player2LastMove) {
         //Build History
@@ -176,6 +198,10 @@ import java.util.*;
         else if (sPlayer1 > fPlayer1 + this.tol && sPlayer2 > fPlayer2+this.tol){
           //Pseudo code talks about current utility?????
 
+          if (this.scoreRound(this.selfHistory.get(this.selfHistory.size()-1) , player1LastMove, player2LastMove) < 8){
+
+          }
+
           if (sPlayer1 > sPlayer2){
             int nextMove = Math.floorMod( player1LastMove - 6, 12);
             if (nextMove == 0){
@@ -239,7 +265,7 @@ import java.util.*;
         //This is where we play carrot stick
 
       else if (this.areAcross(player1LastMove, player2LastMove)){
-        System.out.println("Sucker");
+        // System.out.println("Sucker");
         if (sPlayer1 < sPlayer2){
           this.selfHistory.add(player1LastMove);
           return player1LastMove;
