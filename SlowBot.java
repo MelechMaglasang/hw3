@@ -91,39 +91,6 @@ public class SlowBot implements Bot {
     return fSelfandP;
   }
 
-  // This is kinda iffy
-  private double findF(double bigGamma, ArrayList<Integer> selfHistory, ArrayList<Integer> otherHistory,
-      ArrayList<Integer> otherHistory2) {
-    // Self follow value
-    int size = otherHistory.size();
-    int kStart = 0;
-
-    if (this.selfHistory.size() > 300) {
-      kStart = this.selfHistory.size() - 100;
-
-    } else {
-      kStart = 2;
-    }
-
-    double f = 0.0;
-    for (int k = kStart; k < size - 1; k++) {
-      int curr = selfHistory.get(k);
-      int otherP1 = otherHistory.get(k - 1);
-      int otherP2 = otherHistory2.get(k - 1);
-
-      // Minimum across distance for both players
-      double minFollow = Math.min(Math.floorMod(Math.abs(curr - Math.floorMod(otherP1 - 6, 12)), 12),
-          Math.floorMod(Math.abs(curr - Math.floorMod(otherP2 - 6, 12)), 12));
-
-      f += (Math.pow(this.gamma, size - 1 - k) / bigGamma) * Math.pow(minFollow, this.rho);
-    }
-
-    f *= -1.0;
-
-    return f;
-
-  }
-
   private int scoreRound(int action1, int action2, int action3) {
     if ((action1 == action2) && (action1 == action3))
       return 8; // three-way tie
