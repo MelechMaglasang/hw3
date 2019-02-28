@@ -315,26 +315,44 @@ public class SlowBot implements Bot {
       // System.out.println("Sucker");
 
       if (this.suckerIndex) {
-        int num = this.sticky;
+        // int num = this.sticky;
 
-        num = Math.floorMod(num - 3, 12);
+        // num = Math.floorMod(num - 3, 12);
 
-        if (num == 0) {
-          num = 12;
+        // if (num == 0) {
+        // num = 12;
+        // }
+        // this.sticky = num;
+
+        // this.stickCounter = 5;
+
+        // this.selfHistory.add(this.sticky);
+
+        // return this.sticky;
+
+        if (this.scoreRound(this.selfHistory.get(this.selfHistory.size() - 1), player1LastMove, player2LastMove) < 8) {
+          int num = this.selfHistory.get(this.selfHistory.size() - 1);
+          num = Math.floorMod(num - 3, 12);
+          this.selfHistory.add(num);
+
+          return this.sticky;
+
+        } else {
+          this.suckerIndex = false;
+          int num = this.selfHistory.get(this.selfHistory.size() - 1);
+
+          this.selfHistory.add(num);
+          this.sticky = num;
+          this.stickCounter = 10;
+          return this.sticky;
+
         }
-        this.sticky = num;
-
-        this.stickCounter = 5;
-
-        this.selfHistory.add(this.sticky);
-
-        return this.sticky;
 
       } else {
         this.suckerCounter += 1;
         if (sPlayer1 < sPlayer2) {
           this.selfHistory.add(player1LastMove);
-          if (this.suckerCounter == 10) {
+          if (this.suckerCounter == 5) {
             this.suckerIndex = true;
 
           }
