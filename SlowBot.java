@@ -17,7 +17,7 @@ public class SlowBot implements Bot {
   private double rho = 0.5;
   private double gamma = 0.75;
   private double tol = 0.1;
-  private double stickCounter = 0;
+  private double stickCounter = 10;
   private int sticky = 6;
 
   private boolean suckerIndex = false;
@@ -327,6 +327,7 @@ public class SlowBot implements Bot {
         this.stickCounter = 5;
 
         this.selfHistory.add(this.sticky);
+
         return this.sticky;
 
       } else {
