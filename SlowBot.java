@@ -186,8 +186,16 @@ public class SlowBot implements Bot {
     // Calculate bigGamma, this should be the same for all indicators
     double bigGamma = 0.0;
 
+    int kStart = 0;
+    if (this.selfHistory.size() > 300) {
+      kStart = this.selfHistory.size() - 100;
+
+    } else {
+      kStart = 2;
+    }
+
     int p1Size = player1History.size();
-    for (int k = 2; k < p1Size - 1; k++) {
+    for (int k = kStart; k < p1Size - 1; k++) {
       bigGamma += Math.pow(this.gamma, p1Size - 1 - k);
     }
 
