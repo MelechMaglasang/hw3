@@ -288,6 +288,8 @@ public class SlowBot implements Bot {
 
     else if (this.areAcross(player1LastMove, player2LastMove)) {
       // System.out.println("Sucker");
+      System.out.println("Across");
+
 
       if (this.suckerIndex) {
         // int num = this.sticky;
@@ -306,9 +308,16 @@ public class SlowBot implements Bot {
         // return this.sticky;
 
         if (this.scoreRound(this.selfHistory.get(this.selfHistory.size() - 1), player1LastMove, player2LastMove) < 8) {
+         System.out.println("fuck");
+
           int num = this.selfHistory.get(this.selfHistory.size() - 1);
-          num = Math.floorMod(num - 3, 12);
+          num = Math.floorMod(num - 5, 12);
+          if (num == 0){
+            num = 12;
+          }
+    
           this.selfHistory.add(num);
+          this.sticky = num;
 
           return this.sticky;
 
@@ -325,6 +334,8 @@ public class SlowBot implements Bot {
 
       } else {
         this.suckerCounter += 1;
+      System.out.println("else");
+
         if (sPlayer1 < sPlayer2) {
           this.selfHistory.add(player1LastMove);
           if (this.suckerCounter == 5) {
@@ -344,6 +355,22 @@ public class SlowBot implements Bot {
       }
 
     }
+
+    // //Final Check if we are at a good spot
+    // if (this.scoreRound(this.selfHistory.get(this.selfHistory.size()-1), player1LastMove, player2LastMove) < 7) {
+    //   System.out.println("fuck");
+    //   int num = this.selfHistory.get(this.selfHistory.size() - 1);
+    //   num = Math.floorMod(num - 3, 12);
+    //   if (num == 0){
+    //     num = 12;
+    //   }
+    //   this.selfHistory.add(num);
+      
+    //   // this.sticky = num;
+
+    //   return num;
+
+    // }
 
     // No conditions met just stick
 
