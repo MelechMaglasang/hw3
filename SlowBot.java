@@ -14,11 +14,13 @@ public class SlowBot implements Bot {
    * 
    */
   // Set Variables
+  private Random generator = new Random();
+
   private double rho = 0.5;
   private double gamma = 0.75;
   private double tol = 0.1;
-  private double stickCounter = 10;
-  private int sticky = 6;
+  private double stickCounter = 5;
+  private int sticky = generator.nextInt(12) + 1;;
 
   private boolean suckerIndex = false;
   private int suckerCounter = 0;
@@ -143,8 +145,15 @@ public class SlowBot implements Bot {
     player2History.add(player2LastMove);
 
     // // Signal that this can be a stationary player so start off stationary
+    if (this.selfHistory.size() < 5) {
+      this.selfHistory.add(this.sticky);
+
+      return this.sticky;
+
+    }
     // --Stick counter basically
-    if (this.stickCounter > 0) {
+    if (this.stickCounter > 0
+        && this.scoreRound(this.selfHistory.get(this.selfHistory.size() - 1), player1LastMove, player2LastMove) < 7) {
       this.selfHistory.add(this.sticky);
       this.stickCounter -= 1;
       return this.sticky;
@@ -287,9 +296,6 @@ public class SlowBot implements Bot {
     // This is where we play carrot stick
 
     else if (this.areAcross(player1LastMove, player2LastMove)) {
-      // System.out.println("Sucker");
-      System.out.println("Across");
-
 
       if (this.suckerIndex) {
         // int num = this.sticky;
@@ -308,14 +314,13 @@ public class SlowBot implements Bot {
         // return this.sticky;
 
         if (this.scoreRound(this.selfHistory.get(this.selfHistory.size() - 1), player1LastMove, player2LastMove) < 8) {
-         System.out.println("fuck");
 
           int num = this.selfHistory.get(this.selfHistory.size() - 1);
           num = Math.floorMod(num - 5, 12);
-          if (num == 0){
+          if (num == 0) {
             num = 12;
           }
-    
+
           this.selfHistory.add(num);
           this.sticky = num;
 
@@ -334,7 +339,6 @@ public class SlowBot implements Bot {
 
       } else {
         this.suckerCounter += 1;
-      System.out.println("else");
 
         if (sPlayer1 < sPlayer2) {
           this.selfHistory.add(player1LastMove);
@@ -356,21 +360,26 @@ public class SlowBot implements Bot {
 
     }
 
-    // //Final Check if we are at a good spot
-    // if (this.scoreRound(this.selfHistory.get(this.selfHistory.size()-1), player1LastMove, player2LastMove) < 7) {
-    //   System.out.println("fuck");
-    //   int num = this.selfHistory.get(this.selfHistory.size() - 1);
-    //   num = Math.floorMod(num - 3, 12);
-    //   if (num == 0){
-    //     num = 12;
-    //   }
-    //   this.selfHistory.add(num);
-      
-    //   // this.sticky = num;
+    // Final Check if we are at a good spot
+    if (this.scoreRound(this.selfHistory.get(this.selfHistory.size() - 1), player1LastMove, player2LastMove) < 7) {
+      if (this.selfHistory.get(this.selfHistory.size() - 1) == player1LastMove
+          || this.selfHistory.get(this.selfHistory.size() - 1) == player2LastMove) {
 
-    //   return num;
+        int num = this.selfHistory.get(this.selfHistory.size() - 1);
+        num = Math.floorMod(num - 5, 12);
+        if (num == 0) {
+          num = 12;
+        }
+        this.selfHistory.add(num);
+        this.stickCounter = 5;
 
-    // }
+        this.sticky = num;
+
+        return num;
+
+      }
+
+    }
 
     // No conditions met just stick
 
